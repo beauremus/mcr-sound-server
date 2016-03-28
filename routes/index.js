@@ -3,7 +3,7 @@ module.exports = function(io) {
     var router = app.Router();
     var tcpsock = require("net");
 
-    var tcp_HOST = process.env.IP || 'clx9';
+    var tcp_HOST = process.env.IP || 'localhost';
     var tcp_PORT = (tcp_HOST == process.env.IP) ? 8081 : 1661;
 
     router.get('/', function(req, res, next) {
@@ -11,12 +11,13 @@ module.exports = function(io) {
     });
 
     io.on('connection', function(socket) {
-        var tcpClient = new tcpsock.Socket();
-        tcpClient.setEncoding("ascii");
-        tcpClient.setKeepAlive(true);
+        // var tcpClient = new tcpsock.Socket();
+        // var tcpClient.setEncoding("ascii");
+        // var tcpClient.setKeepAlive(true);
 
-        tcpClient.connect(tcp_PORT, function(){ //tcp_HOST, function() {
-            console.info('CONNECTED TO : ' + tcp_HOST + ':' + tcp_PORT);
+        tcpsock.createServer(function(tcpClient) { //tcp_PORT, tcp_HOST, function() {
+            // console.info('CONNECTED TO : ' + tcp_HOST + ':' + tcp_PORT);
+            console.log('CONNECTED: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
 
             tcpClient.on('data', function(data) {
                 console.log('DATA: ' + data);
@@ -30,7 +31,13 @@ module.exports = function(io) {
             tcpClient.on('error', function(err) {
                 console.log('ERROR : ' + err);
             });
-        });
+
+            tcpClient.on('close', function(data) {
+                console.log('CLOSED: ' + tcpClient.remoteAddress +' '+ tcpClient.remotePort);
+            });
+        }).listen(tcp_PORT, tcp_HOST);
+
+        console.log('Server listening on ' + tcp_HOST +':'+ tcp_PORT);
 
         socket.on('tcp-manager', function(message) {
             console.log('"tcp" : ' + message);
@@ -41,7 +48,7 @@ module.exports = function(io) {
 
         console.log('a user connected');
         socket.on('disconnect',function(){
-            tcpClient.end();
+            // tcpClient.end();
             console.log('a user disconnected');
         });
     });

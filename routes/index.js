@@ -67,7 +67,7 @@ function alarmsTCP2Speech(data) {
             return "Safety System";
         case (/noise 0/).test(dataString):
             return "Tick";
-        case (/noise 10/).test(dataString):
+        case (/noise :/).test(dataString):
             return "Loon";
         case (/A/).test(dataString):
             return "p bar Accumulator";

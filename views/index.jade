@@ -16,6 +16,9 @@ block content
       } else if(data == "Loon") {
         var audio = new Audio('/audio/loon.wav');
         audio.play();
+      } else if(data == "Acknowledge") {
+        var audio = new Audio('/audio/ack.wav');
+        audio.play();
       } else {
         responsiveVoice.speak(data);
       }

@@ -57,34 +57,40 @@ module.exports = function(io) {
 };
 
 function alarmsTCP2Speech(data) {
-    switch (data.toString()) {
-        case "MCR_Firus":
-            return "fi rus";
-        case "MCR_Safety":
+	var dataString = data.toString('ascii');
+    switch (true) {
+		case (/tmess/).test(dataString):
+			dataString.replace("tmess ","");
+            return dataString;
+        case (/MCR_Firus/).test(dataString):
+            return "phi russ";
+        case (/MCR_Safety/).test(dataString):
             return "Safety System";
-        case "speak A":
+        case (/noise/).test(dataString):
+            return "Tick";
+        case (/A/).test(dataString):
             return "p bar Accumulator";
-        case "speak B":
+        case (/B/).test(dataString):
             return "Booster";
-        case "speak C":
+        case (/C/).test(dataString):
             return "Cryo";
-        case "speak D":
+        case (/D/).test(dataString):
             return "p bar debuncher";
-        case "speak I":
+        case (/I/).test(dataString):
             return "Main Injector";
-        case "speak L":
+        case (/L/).test(dataString):
             return "Linac";
-        case "speak R":
+        case (/R/).test(dataString):
             return "Recycler";
-        case "speak S":
+        case (/S/).test(dataString):
             return "Switchyard";
-        case "speak T":
+        case (/T/).test(dataString):
             return "Tevatron";
-        case "speak M":
+        case (/M/).test(dataString):
             return "Main Ring";
-        case "speak E":
+        case (/E/).test(dataString):
             return "E";
-        case "speak F":
+        case (/F/).test(dataString):
             return "Fixed Target";
         default:
             return "unknown speech request";

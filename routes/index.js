@@ -60,8 +60,7 @@ function alarmsTCP2Speech(data) {
 	var dataString = data.toString('ascii');
     switch (true) {
 		case (/tmess/).test(dataString):
-			dataString.replace("tmess ","");
-            return dataString;
+			return dataString.replace("tmess ","");
         case (/MCR_Firus/).test(dataString):
             return "phi russ";
         case (/MCR_Safety/).test(dataString):

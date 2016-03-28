@@ -62,29 +62,29 @@ function alarmsTCP2Speech(data) {
             return "fi rus";
         case "MCR_Safety":
             return "Safety System";
-        case "speak a":
+        case "speak A":
             return "p bar Accumulator";
-        case "speak b":
+        case "speak B":
             return "Booster";
-        case "speak c":
+        case "speak C":
             return "Cryo";
-        case "speak d":
+        case "speak D":
             return "p bar debuncher";
-        case "speak i":
+        case "speak I":
             return "Main Injector";
-        case "speak l":
+        case "speak L":
             return "Linac";
-        case "speak r":
+        case "speak R":
             return "Recycler";
-        case "speak s":
+        case "speak S":
             return "Switchyard";
-        case "speak t":
+        case "speak T":
             return "Tevatron";
-        case "speak m":
+        case "speak M":
             return "Main Ring";
-        case "speak e":
+        case "speak E":
             return "E";
-        case "speak f":
+        case "speak F":
             return "Fixed Target";
         default:
             return "unknown speech request";

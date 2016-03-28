@@ -57,10 +57,10 @@ module.exports = function(io) {
 };
 
 function alarmsTCP2Speech(data) {
-	var dataString = data.toString('ascii');
+    var dataString = data.toString('ascii');
     switch (true) {
-		case (/tmess/).test(dataString):
-			return dataString.replace("tmess ","");
+        case (/tmess/).test(dataString):
+            return dataString.replace("tmess ","");
         case (/MCR_Firus/).test(dataString):
             return "phi russ";
         case (/MCR_Safety/).test(dataString):
@@ -69,6 +69,8 @@ function alarmsTCP2Speech(data) {
             return "Tick";
         case (/noise :/).test(dataString):
             return "Loon";
+        case (/ackal/).test(dataString):
+            return "Acknowledge";
         case (/A/).test(dataString):
             return "p bar Accumulator";
         case (/B/).test(dataString):

@@ -33,7 +33,8 @@ io.attach(server);
  */
 
 // Added process.env.IP for cloud9 as required
-server.listen(port, process.env.IP);
+var ip = process.env.IP || 'localhost';
+server.listen(port, ip);
 server.on('error', onError);
 server.on('listening', onListening);
 

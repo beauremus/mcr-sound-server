@@ -3,8 +3,8 @@ module.exports = function(io) {
     var router = app.Router();
     var tcpsock = require("net");
 
-    var tcp_HOST = process.env.IP;
-    var tcp_PORT = 8081;
+    var tcp_HOST = process.env.IP || 'clx9';
+    var tcp_PORT = (tcp_HOST == process.env.IP) ? 8081 : 1661;
 
     router.get('/', function(req, res, next) {
         res.render('index', { title: 'MCR Sound Server' });

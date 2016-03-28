@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/jquery.min.js")
+  script(src="/javascripts/responsiveVoice.js")
+  script.
+    var socket = io();
+    socket.on('connect', function(){});
+    socket.on('httpServer', function (data) {
+      responsiveVoice.speak(data);
+      console.log(data);
+      document.write(data + "\r\n");
+    });
+    socket.on('disconnect', function(){});
+    // Queue

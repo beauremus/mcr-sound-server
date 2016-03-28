@@ -1,0 +1,20 @@
+{
+  "name": "mrHouse",
+  "version": "0.0.1",
+  "description": "HTTP server passing TCP text streams to browser.",
+  "author": "Beau Harrison <beau@fnal.gov>",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "morgan": "^1.6.1",
+    "net": "^1.0.2",
+    "serve-favicon": "^2.3.0",
+    "socket.io": "^1.4.5",
+    "socket.io-client": "^1.4.5"
+  }
+}

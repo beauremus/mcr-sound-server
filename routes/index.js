@@ -15,7 +15,7 @@ module.exports = function(io) {
         tcpClient.setEncoding("ascii");
         tcpClient.setKeepAlive(true);
 
-        tcpClient.connect(tcp_PORT, tcp_HOST, function() {
+        tcpClient.connect(tcp_PORT, function(){ //tcp_HOST, function() {
             console.info('CONNECTED TO : ' + tcp_HOST + ':' + tcp_PORT);
 
             tcpClient.on('data', function(data) {

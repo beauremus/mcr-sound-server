@@ -3,7 +3,7 @@ module.exports = function(io) {
     var router = app.Router();
     var tcpsock = require("net");
 
-    var tcp_HOST = process.env.IP || 'localhost';
+    var tcp_HOST = process.env.IP || '0.0.0.0';
     var tcp_PORT = (tcp_HOST == process.env.IP) ? 8081 : 1661;
 
     router.get('/', function(req, res, next) {

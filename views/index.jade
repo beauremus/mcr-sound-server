@@ -11,7 +11,7 @@ block content
     socket.on('connect', function(){});
     socket.on('httpServer', function (data) {
       if(data == "Tick") {
-        var audio = new Audio('/audio/tic.mp3');
+        var audio = new Audio('/audio/tic.wav');
         audio.play();
       } else if(data == "Loon") {
         var audio = new Audio('/audio/loon.wav');

@@ -10,7 +10,13 @@ block content
     var socket = io();
     socket.on('connect', function(){});
     socket.on('httpServer', function (data) {
-      responsiveVoice.speak(data);
+      if(data == "Tick") {
+        var audio = new Audio('/audio/tic.mp3');
+        audio.play();
+      } else {
+        responsiveVoice.speak(data);
+      }
+
       console.log(data);
       document.write(data + "\r\n");
     });

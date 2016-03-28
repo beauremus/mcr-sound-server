@@ -26,6 +26,10 @@ module.exports = function(io) {
             tcpClient.on('end', function(data) {
                 console.log('END DATA : ' + data);
             });
+
+            tcpClient.on('error', function(err) {
+                console.log('ERROR : ' + err);
+            });
         });
 
         socket.on('tcp-manager', function(message) {

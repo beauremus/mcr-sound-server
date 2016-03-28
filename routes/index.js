@@ -57,7 +57,8 @@ module.exports = function(io) {
 };
 
 function alarmsTCP2Speech(data) {
-    switch (data.toString()) {
+    var dataString = data.toString('utf8');
+    switch (dataString) {
         case "MCR_Firus":
             return "fi rus";
         case "MCR_Safety":

@@ -7,20 +7,74 @@ block content
   script(src="/javascripts/jquery.min.js")
   script(src="/javascripts/responsiveVoice.js")
   script.
+    var tick = new Audio('/audio/tic.wav');
+    var airplane = new Audio('/audio/airplane.wav');
+    var bird = new Audio('/audio/bird.wav');
+    var cat = new Audio('/audio/cat.wav');
+    var duck = new Audio('/audio/duck.wav');
+    var elephant = new Audio('/audio/elephant.wav');
+    var frog = new Audio('/audio/frog.wav');
+    var goose = new Audio('/audio/goose.wav');
+    var insect = new Audio('/audio/insect.wav');
+    var jackhammer = new Audio('/audio/jackhammer.wav');
+    var loon = new Audio('/audio/loon.wav');
+    var monkey = new Audio('/audio/monkey.wav');
+    var rooster = new Audio('/audio/rooster.wav');
+    var ship = new Audio('/audio/ship.wav');
+    var turkey = new Audio('/audio/turkey.wav');
+    var uboat = new Audio('/audio/uboat.wav');
     var socket = io();
     socket.on('connect', function(){});
     socket.on('httpServer', function (data) {
-      if(data == "Tick") {
-        var audio = new Audio('/audio/tic.wav');
-        audio.play();
-      } else if(data == "Loon") {
-        var audio = new Audio('/audio/loon.wav');
-        audio.play();
-      } else if(data == "Acknowledge") {
-        var audio = new Audio('/audio/ack.wav');
-        audio.play();
-      } else {
-        responsiveVoice.speak(data);
+      switch(data) {
+        case "Tick":
+          tic.play();
+          break;
+        case "Airplane":
+          airplane.play();
+          break;
+        case "Bird":
+          bird.play();
+          break;
+        case "Cat":
+          cat.play();
+          break;
+        case "Duck":
+          duck.play();
+          break;
+        case "Elephant":
+          elephant.play();
+          break;
+        case "Frog":
+          frog.play();
+          break;
+        case "Goose":
+          goose.play();
+          break;
+        case "Insect":
+          insect.play();
+          break;
+        case "Jackhammer":
+          jackhammer.play();
+          break;
+        case "Loon":
+          loon.play();
+          break;
+        case "Monkey":
+          monkey.play();
+          break;
+        case "Rooster":
+          rooster.play();
+          break;
+        case "Ship":
+          ship.play();
+          break;
+        case "Turkey":
+          turkey.play();
+          break;
+        case "U-boat":
+          uboat.play();
+          break;
       }
 
       console.log(data);

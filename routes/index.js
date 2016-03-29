@@ -11,21 +11,19 @@ module.exports = function(io) {
     });
 
     io.on('connection', function(socket) {
-        // var tcpClient = new tcpsock.Socket();
-        // var tcpClient.setEncoding("ascii");
-        // var tcpClient.setKeepAlive(true);
+        socket.emit("httpServer", "Sound server started");
 
-        tcpsock.createServer(function(tcpClient) { //tcp_PORT, tcp_HOST, function() {
-            // console.info('CONNECTED TO : ' + tcp_HOST + ':' + tcp_PORT);
+        tcpsock.createServer(function(tcpClient) {
             console.log('CONNECTED: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
+            socket.emit("httpServer", "Sound server connected");
 
             tcpClient.on('data', function(data) {
                 console.log('DATA: ' + data);
                 socket.emit("httpServer", alarmsTCP2Speech(data));
             });
 
-            tcpClient.on('end', function(data) {
-                console.log('END DATA : ' + data);
+            tcpClient.on('end', function() {
+                console.log('END DATA');
             });
 
             tcpClient.on('error', function(err) {
@@ -33,6 +31,7 @@ module.exports = function(io) {
             });
 
             tcpClient.on('close', function(data) {
+                socket.emit("httpServer", "Sound server connection removed");
                 console.log('CLOSED: ' + tcpClient.remoteAddress +' '+ tcpClient.remotePort);
             });
         }).listen(tcp_PORT, tcp_HOST);
@@ -65,10 +64,9 @@ function alarmsTCP2Speech(data) {
             return "phi russ";
         case (/MCR_Safety/).test(dataString):
             return "Safety System";
-        case (/noise 0/).test(dataString):
-            return "Tick";
-        case (/noise :/).test(dataString):
-            return "Loon";
+        case (/noise/).test(dataString):
+            var noise = processNoise(dataString);
+            return noise;
         case (/ackal/).test(dataString):
             return "Acknowledge";
         case (/A/).test(dataString):
@@ -96,8 +94,54 @@ function alarmsTCP2Speech(data) {
         case (/F/).test(dataString):
             return "Fixed Target";
         default:
-            return "unknown speech request";
+            return "Unknown speech request";
     }
 }
 
+function processNoise(noise) {
+    switch(true) {
+        case (/0/).test(noise):
+            return "Tick";
+        case (/1/).test(noise):
+            return "Airplane";
+        case (/2/).test(noise):
+            return "Bird";
+        case (/3/).test(noise):
+            return "Cat";
+        case (/4/).test(noise):
+            return "Duck";
+        case (/5/).test(noise):
+            return "Elephant";
+        case (/6/).test(noise):
+            return "Frog";
+        case (/7/).test(noise):
+            return "Goose";
+        case (/8/).test(noise):
+            return "Insect";
+        case (/9/).test(noise):
+            return "Jackhammer";
+        case (/:/).test(noise):
+            return "Loon";
+        case (/;/).test(noise):
+            return "Monkey";
+        case (/</).test(noise):
+            return "Rooster";
+        case (/=/).test(noise):
+            return "Ship";
+        case (/>/).test(noise):
+            return "Turkey";
+        case (/\?/).test(noise):
+            return "U-boat";
+        case (/@/).test(noise):
+            return "Tick";
+        case (/A/).test(noise):
+            return "Tick";
+        case (/B/).test(noise):
+            return "Tick";
+        case (/C/).test(noise):
+            return "Tick";
+        case (/D/).test(noise):
+            return "Tick";
+    }
+}
 // Queue for annunciations

@@ -43,8 +43,8 @@ module.exports = function(io) {
 
     io.on('connection', function(socket) {
         console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
-        socket.emit("httpServer", "Sound server started");
         server.listen(tcp_PORT, tcp_HOST);
+        socket.emit("httpServer", "Sound server started");
     });
 
     return router;

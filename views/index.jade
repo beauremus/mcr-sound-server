@@ -23,6 +23,7 @@ block content
     var ship = new Audio('/audio/ship.wav');
     var turkey = new Audio('/audio/turkey.wav');
     var uboat = new Audio('/audio/uboat.wav');
+    var ack = new Audio('/audio/SB.wav');
     var socket = io();
     socket.on('connect', function(){});
     socket.on('httpServer', function (data) {
@@ -75,6 +76,11 @@ block content
         case "U-boat":
           uboat.play();
           break;
+        case "Acknowledge":
+          ack.play();
+          break;
+        default:
+          responsiveVoice.speak(data);
       }
 
       console.log(data);

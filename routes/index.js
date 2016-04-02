@@ -12,7 +12,10 @@ module.exports = function(io) {
 
     var server = tcpsock.createServer(function(sock) {
         console.log('TCP CONNECTION: ' + sock.remoteAddress +':'+ sock.remotePort);
-        io.emit("httpServer", "Sound server connected");
+
+        sock.on('listening', function() {
+            io.emit("httpServer", "Sound server connected");
+        });
 
         sock.on('data', function(data) {
             console.log('DATA: ' + data);

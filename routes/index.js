@@ -10,17 +10,9 @@ module.exports = function(io) {
         res.render('index', { title: 'MCR Sound Server' });
     });
 
-    io.on('connection', function(socket) {
-        console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
-        socket.emit("httpServer", "Sound server started");
-    });
-
-    tcpsock.createServer(function(sock) {
+    var server = tcpsock.createServer(function(sock) {
         console.log('TCP CONNECTION: ' + sock.remoteAddress +':'+ sock.remotePort);
-
-        sock.on('connect', function(data) {
-            io.emit("httpServer", "Sound server connected");
-        });
+        io.emit("httpServer", "Sound server connected");
 
         sock.on('data', function(data) {
             console.log('DATA: ' + data);
@@ -45,6 +37,12 @@ module.exports = function(io) {
             console.log('ERROR : ' + err);
         });
     }).listen(tcp_PORT, tcp_HOST);
+
+    io.on('connection', function(socket) {
+        console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
+        socket.emit("httpServer", "Sound server started");
+        server.listen(tcp_PORT, tcp_HOST);
+    });
 
     return router;
 };

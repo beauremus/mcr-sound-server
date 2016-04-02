@@ -10,50 +10,37 @@ module.exports = function(io) {
         res.render('index', { title: 'MCR Sound Server' });
     });
 
-    var tcpServer = tcpsock.createServer();
-    tcpServer.listen(tcp_PORT, tcp_HOST);
-
-    tcpServer.on('connection', function(sock) {
-        console.log('TCP CONNECTION: ' + sock.remoteAddress +':'+ sock.remotePort);
-        console.log('Server listening on ' + tcpServer.address().address +':'+ tcpServer.address().port);
-    }).listen(tcp_PORT, tcp_HOST);
-
     io.on('connection', function(socket) {
-        var tcpClient = new tcpsock.Socket();
-        tcpClient.setEncoding("ascii");
-        tcpClient.setKeepAlive(true);
-
-        console.log('HTTP server listening on ' + tcp_HOST +':'+ tcp_PORT);
+        console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
         socket.emit("httpServer", "Sound server started");
-
-        tcpClient.connect(tcp_PORT, tcp_HOST, function() {
-            console.info('CONNECTED TO : ' + tcp_HOST + ':' + tcp_PORT);
-            socket.emit("httpServer", "Sound server connected");
-
-            tcpClient.on('data', function(data) {
-                console.log('DATA: ' + data);
-                socket.emit("httpServer", alarmsTCP2Speech(data));
-            });
-
-            tcpClient.on('close', function(data) {
-                socket.emit("httpServer", "Sound server connection removed");
-                console.log('CLOSED: ' + tcpClient.remoteAddress +' '+ tcpClient.remotePort);
-            });
-
-            tcpClient.on('end', function(data) {
-                console.log('END DATA : ' + data);
-                console.log('A user disconnected');
-            });
-
-            tcpClient.on('error', function(err) {
-                console.log('ERROR : ' + err);
-            });
-        });
-
-        socket.on('disconnect', function(){
-            tcpClient.end();
-        });
     });
+
+    tcpsock.createServer(function(sock) {
+        console.log('TCP CONNECTION: ' + sock.remoteAddress +':'+ sock.remotePort);
+
+        sock.on('data', function(data) {
+            console.log('DATA: ' + data);
+            io.emit("httpServer", alarmsTCP2Speech(data));
+        });
+
+        sock.on('close', function(data) {
+            io.emit("httpServer", "Sound server connection removed");
+            console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+        });
+
+        sock.on('end', function(data) {
+            console.log('END DATA : ' + data);
+            console.log('A user disconnected');
+        });
+
+        io.on('disconnect', function() {
+            sock.end();
+        });
+
+        sock.on('error', function(err) {
+            console.log('ERROR : ' + err);
+        });
+    }).listen(tcp_PORT, tcp_HOST);
 
     return router;
 };

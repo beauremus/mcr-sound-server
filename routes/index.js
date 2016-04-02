@@ -12,6 +12,7 @@ module.exports = function(io) {
 
     tcpsock.createServer(function(tcpClient) {
         console.log('TCP CONNECTION: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
+        console.log('A user connected');
 
         io.on('connection', function(socket) {
             console.log('HTTP server listening on ' + tcp_HOST +':'+ tcp_PORT);
@@ -19,7 +20,6 @@ module.exports = function(io) {
 
             socket.on('disconnect',function(){
                 tcpClient.end();
-                console.log('A user disconnected');
             });
 
             tcpClient.on('data', function(data) {
@@ -33,12 +33,8 @@ module.exports = function(io) {
             });
         });
 
-        tcpClient.on('connection', function() {
-            console.log('A user connected');
-        });
-
         tcpClient.on('end', function(data) {
-            console.log('END : ' + data);
+            console.log('A user disconnected');
         });
 
         tcpClient.on('error', function(err) {

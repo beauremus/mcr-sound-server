@@ -10,47 +10,41 @@ module.exports = function(io) {
         res.render('index', { title: 'MCR Sound Server' });
     });
 
-    io.on('connection', function(socket) {
-        socket.emit("httpServer", "Sound server started");
+    tcpsock.createServer(function(tcpClient) {
+        console.log('TCP CONNECTION: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
 
-        tcpsock.createServer(function(tcpClient) {
-            console.log('CONNECTED: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
-            socket.emit("httpServer", "Sound server connected");
+        io.on('connection', function(socket) {
+            console.log('HTTP server listening on ' + tcp_HOST +':'+ tcp_PORT);
+            socket.emit("httpServer", "Sound server started");
+
+            socket.on('disconnect',function(){
+                tcpClient.end();
+                console.log('A user disconnected');
+            });
 
             tcpClient.on('data', function(data) {
                 console.log('DATA: ' + data);
                 socket.emit("httpServer", alarmsTCP2Speech(data));
             });
 
-            tcpClient.on('end', function() {
-                console.log('END DATA');
-            });
-
-            tcpClient.on('error', function(err) {
-                console.log('ERROR : ' + err);
-            });
-
             tcpClient.on('close', function(data) {
                 socket.emit("httpServer", "Sound server connection removed");
                 console.log('CLOSED: ' + tcpClient.remoteAddress +' '+ tcpClient.remotePort);
             });
-        }).listen(tcp_PORT, tcp_HOST);
-
-        console.log('Server listening on ' + tcp_HOST +':'+ tcp_PORT);
-
-        socket.on('tcp-manager', function(message) {
-            console.log('"tcp" : ' + message);
-            return;
         });
 
-        socket.emit("httpServer", "Initial Data");
-
-        console.log('a user connected');
-        socket.on('disconnect',function(){
-            // tcpClient.end();
-            console.log('a user disconnected');
+        tcpClient.on('connection', function() {
+            console.log('A user connected');
         });
-    });
+
+        tcpClient.on('end', function(data) {
+            console.log('END : ' + data);
+        });
+
+        tcpClient.on('error', function(err) {
+            console.log('ERROR : ' + err);
+        });
+    }).listen(tcp_PORT, tcp_HOST);
 
     return router;
 };

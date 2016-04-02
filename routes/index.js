@@ -51,7 +51,7 @@ function alarmsTCP2Speech(data) {
         case (/tmess/).test(dataString):
             return dataString.replace("tmess ","");
         case (/MCR_Firus/).test(dataString):
-            return "phi russ";
+            return "phyrus";
         case (/MCR_Safety/).test(dataString):
             return "Safety System";
         case (/noise/).test(dataString):
@@ -60,29 +60,29 @@ function alarmsTCP2Speech(data) {
         case (/ackal/).test(dataString):
             return "Acknowledge";
         case (/A/).test(dataString):
-            return "p bar Accumulator";
+            return "P Bar Accumulator";
         case (/B/).test(dataString):
             return "Booster";
         case (/C/).test(dataString):
             return "Cryo";
         case (/D/).test(dataString):
-            return "p bar debuncher";
+            return "P Bar De buncher";
+        case (/E/).test(dataString):
+            return "E";
+        case (/F/).test(dataString):
+            return "Fixed Target";
         case (/I/).test(dataString):
             return "Main Injector";
         case (/L/).test(dataString):
             return "Linac";
+        case (/M/).test(dataString):
+            return "Main Ring";
         case (/R/).test(dataString):
             return "Recycler";
         case (/S/).test(dataString):
             return "Switchyard";
         case (/T/).test(dataString):
             return "Tevatron";
-        case (/M/).test(dataString):
-            return "Main Ring";
-        case (/E/).test(dataString):
-            return "E";
-        case (/F/).test(dataString):
-            return "Fixed Target";
         default:
             return "Unknown speech request";
     }

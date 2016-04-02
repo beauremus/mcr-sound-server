@@ -10,28 +10,31 @@ module.exports = function(io) {
         res.render('index', { title: 'MCR Sound Server' });
     });
 
+    var tcpSock;
+
+    io.on('connection', function(socket) {
+        console.log('HTTP server listening on ' + tcp_HOST +':'+ tcp_PORT);
+        socket.emit("httpServer", "Sound server started");
+
+        socket.on('disconnect',function(){
+            tcpSock.end();
+        });
+
+        tcpSock.on('data', function(data) {
+            console.log('DATA: ' + data);
+            socket.emit("httpServer", alarmsTCP2Speech(data));
+        });
+
+        tcpSock.on('close', function(data) {
+            socket.emit("httpServer", "Sound server connection removed");
+            console.log('CLOSED: ' + tcpSock.remoteAddress +' '+ tcpSock.remotePort);
+        });
+    });
+
     tcpsock.createServer(function(tcpClient) {
+        tcpSock = tcpClient;
         console.log('TCP CONNECTION: ' + tcpClient.remoteAddress +':'+ tcpClient.remotePort);
         console.log('A user connected');
-
-        io.on('connection', function(socket) {
-            console.log('HTTP server listening on ' + tcp_HOST +':'+ tcp_PORT);
-            socket.emit("httpServer", "Sound server started");
-
-            socket.on('disconnect',function(){
-                tcpClient.end();
-            });
-
-            tcpClient.on('data', function(data) {
-                console.log('DATA: ' + data);
-                socket.emit("httpServer", alarmsTCP2Speech(data));
-            });
-
-            tcpClient.on('close', function(data) {
-                socket.emit("httpServer", "Sound server connection removed");
-                console.log('CLOSED: ' + tcpClient.remoteAddress +' '+ tcpClient.remotePort);
-            });
-        });
 
         tcpClient.on('end', function(data) {
             console.log('A user disconnected');

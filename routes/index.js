@@ -6,6 +6,8 @@ module.exports = function(io) {
     var tcp_HOST = process.env.IP || '131.225.122.10';
     var tcp_PORT = (tcp_HOST == process.env.IP) ? 8081 : 1661;
 
+    var queue = [];
+
     router.get('/', function(req, res, next) {
         res.render('index', { title: 'MCR Sound Server' });
     });
@@ -19,7 +21,8 @@ module.exports = function(io) {
 
         sock.on('data', function(data) {
             console.log('DATA: ' + data);
-            io.emit("httpServer", alarmsTCP2Speech(data));
+            queue.push(data);
+            io.emit("httpServer", alarmsTCP2Speech(queue[0]));
         });
 
         sock.on('close', function(data) {
@@ -45,6 +48,19 @@ module.exports = function(io) {
         console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
         server.listen(tcp_PORT, tcp_HOST);
         socket.emit("httpServer", "Sound server started");
+
+        socket.on('silent', function() {
+            queue.shift();
+            if(queue.length > 0) {
+                socket.emit("httpServer", alarmsTCP2Speech(queue[0]));
+            }
+        });
+
+        socket.on('playing', function() {
+            if(queue.length > 0) {
+                socket.emit("httpServer", alarmsTCP2Speech(queue[0]));
+            }
+        });
     });
 
     return router;
@@ -139,4 +155,3 @@ function processNoise(noise) {
             return "Tick";
     }
 }
-// Queue for annunciations

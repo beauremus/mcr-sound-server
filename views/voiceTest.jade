@@ -5,9 +5,7 @@ block content
   p Welcome to #{title}
   textarea
   select
-    option Select a voice
-    for voice in voicelist
-      option voice
+    option
   button Submit
   script(src="/socket.io/socket.io.js")
   script(src="/javascripts/jquery.min.js")
@@ -15,6 +13,10 @@ block content
   script.
     var socket = io();
     var voicelist = responsiveVoice.getVoices();
+
+    voicelist.forEach(function(elem, index, array) {
+      $( "select" ).append("<option>"+elem+"</option>");
+    });
 
     $( "button" ).click(function() {
       socket.emit('voiceTest', {

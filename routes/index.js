@@ -25,13 +25,6 @@ module.exports = function(io) {
             io.emit("httpServer", alarmsTCP2Speech(queue[0]));
         });
 
-        sock.on('silent', function() {
-            queue.shift();
-            if(queue.length > 0) {
-                io.emit("httpServer", alarmsTCP2Speech(queue[0]));
-            }
-        });
-
         sock.on('close', function(data) {
             io.emit("httpServer", "Sound server connection removed");
             console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
@@ -55,6 +48,19 @@ module.exports = function(io) {
         console.log('HTTP server listening to ' + tcp_HOST +':'+ tcp_PORT);
         server.listen(tcp_PORT, tcp_HOST);
         socket.emit("httpServer", "Sound server started");
+
+        socket.on('silent', function() {
+            queue.shift();
+            if(queue.length > 0) {
+                socket.emit("httpServer", alarmsTCP2Speech(queue[0]));
+            }
+        });
+
+        socket.on('playing', function() {
+            if(queue.length > 0) {
+                socket.emit("httpServer", alarmsTCP2Speech(queue[0]));
+            }
+        });
     });
 
     return router;

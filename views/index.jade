@@ -32,6 +32,8 @@ block content
       if(!responsiveVoice.isPlaying()) {
         play(data);
         socket.emit('silent');
+      } else {
+        socket.emit('playing');
       }
     });
 

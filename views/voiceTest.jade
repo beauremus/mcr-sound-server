@@ -4,7 +4,7 @@ block content
   h1= title
   p Welcome to #{title}
   textarea
-  select
+  select#select
     option
   button Submit
   script(src="/socket.io/socket.io.js")
@@ -13,14 +13,16 @@ block content
   script.
     var socket = io();
     var voicelist = responsiveVoice.getVoices();
+	
+    console.log("voicelist: ",voicelist);
 
     voicelist.forEach(function(elem, index, array) {
-      $( "select" ).append("<option>"+elem+"</option>");
+      $( "select" ).append("<option>"+elem.name+"</option>");
     });
 
     $( "button" ).click(function() {
       socket.emit('voiceTest', {
         text: $( "textarea" ).val(),
-        voice: $( "select" ).val(),
+        voice: $( "#select" ).val(),
       });
     });

@@ -63,9 +63,9 @@ module.exports = function(io) {
         });
 
         socket.on('voiceTest', function(data) {
-            console.log('DATA: ' + data);
+            console.log('VoiceTest: ' + data.text + ' ' + data.voice);
             queue.push(data);
-            socket.emit("httpServer", queue[0]);
+            io.emit("httpServer", queue[0]);
         });
     });
 

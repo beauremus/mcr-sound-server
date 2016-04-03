@@ -1,6 +1,6 @@
 {
-  "name": "mrHouse",
-  "version": "0.0.1",
+  "name": "MCR Sound Server",
+  "version": "1.0.0",
   "description": "HTTP server passing TCP text streams to browser.",
   "author": "Beau Harrison <beau@fnal.gov>",
   "private": true,

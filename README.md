@@ -25,8 +25,7 @@ Firewall so that PA1661 can communicate with the server.
 
 Features in Development
 ------
-* Accept all existing requests
-* Upload all sounds and map triggers
+* Build sound test page to replicate existing setup
 
 Feature Requests
 ------

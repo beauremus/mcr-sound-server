@@ -86,5 +86,11 @@ block content
       console.log(data);
       document.write(data + "\r\n");
     });
+
     socket.on('disconnect', function(){});
-    // Queue
+
+    socket.on('checkUp', function(){
+      if(!responsiveVoice.isPlaying()) {
+        socket.emit('silent');
+      }
+    });

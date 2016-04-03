@@ -6,6 +6,8 @@ module.exports = function(io) {
     var tcp_HOST = process.env.IP || '131.225.122.10';
     var tcp_PORT = (tcp_HOST == process.env.IP) ? 8081 : 1661;
 
+    var queue = [];
+
     router.get('/', function(req, res, next) {
         res.render('index', { title: 'MCR Sound Server' });
     });
@@ -19,7 +21,15 @@ module.exports = function(io) {
 
         sock.on('data', function(data) {
             console.log('DATA: ' + data);
-            io.emit("httpServer", alarmsTCP2Speech(data));
+            queue.push(data);
+            io.emit("httpServer", alarmsTCP2Speech(queue[0]));
+        });
+
+        sock.on('silent', function() {
+            queue.shift();
+            if(queue.length > 0) {
+                io.emit("httpServer", alarmsTCP2Speech(queue[0]));
+            }
         });
 
         sock.on('close', function(data) {
@@ -139,4 +149,3 @@ function processNoise(noise) {
             return "Tick";
     }
 }
-// Queue for annunciations

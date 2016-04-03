@@ -29,6 +29,10 @@ block content
     socket.on('connect', function(){});
 
     socket.on('httpServer', function (data) {
+      if(typeof data.voice == String) {
+        responsiveVoice.speak(data.text, data.voice);
+      }
+
       if(!responsiveVoice.isPlaying()) {
         play(data);
         socket.emit('silent');

@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  textarea
+  select
+    option Select a voice
+    for voice in voicelist
+      option voice
+  button Submit
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/jquery.min.js")
+  script(src="/javascripts/responsiveVoice.js")
+  script.
+    var socket = io();
+    var voicelist = responsiveVoice.getVoices();
+
+    $( "button" ).click(function() {
+      socket.emit('voiceTest', {
+        text: $( "textarea" ).val(),
+        voice: $( "select" ).val(),
+      });
+    });

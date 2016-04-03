@@ -61,6 +61,12 @@ module.exports = function(io) {
                 socket.emit("httpServer", alarmsTCP2Speech(queue[0]));
             }
         });
+
+        socket.on('voiceTest', function(data) {
+            console.log('DATA: ' + data);
+            queue.push(data);
+            socket.emit("httpServer", queue[0]);
+        });
     });
 
     return router;

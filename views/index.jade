@@ -100,7 +100,21 @@ block content
           responsiveVoice.speak(data);
       }
 
-      var date = new Date();
-      console.log("Date and data: ",date," - ",data);
-      $( "#log" ).append(date+" - "+data+"\n");
+      var dateTime = new Date();
+      console.log("Date and data: ",formatDatetime(dateTime)," - ",data);
+      $( "#log" ).append(date+" - "+data+"<br/>");
+    }
+
+    function formatDatetime(date) {
+      var dateOut = new Date(date);
+      var monthOut = ('0'+(dateOut.getMonth()+1)).slice(-2);
+      console.log("dateOut.getMonth(): ",dateOut.getMonth()," monthOut: ",monthOut);
+      var dayOut = ('0'+dateOut.getDate()).slice(-2);
+      var yearOut = dateOut.getFullYear();
+      var hoursOut = ('0'+dateOut.getHours()).slice(-2);
+      var minsOut = ('0'+dateOut.getMinutes()).slice(-2);
+      var secsOut = ('0'+dateOut.getSeconds()).slice(-2);
+      var timeOut = monthOut+'-'+dayOut+'-'+yearOut+' '+hoursOut+':'+minsOut+':'+secsOut;
+
+      return timeOut;
     }

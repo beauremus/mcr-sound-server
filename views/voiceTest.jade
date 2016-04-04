@@ -1,7 +1,7 @@
 extends layout
 
-append head
-  link(rel='stylesheet', href='/stylesheets/voiceTest.css')
+block head
+  link(href='/stylesheets/voiceTest.css', rel='stylesheet')
 
 block content
   h1= title

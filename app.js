@@ -32,7 +32,8 @@ var ips = ['131.225.121.20', // cns1pc.fnal.gov
             ['131.225.121.33','131.225.121.35'], // cns12-14
             '131.225.122.10', // adops126896.fnal.gov
             '131.225.122.76', // newhart
-            '131.225.122.90']; // djohnson
+            '131.225.122.90', // djohnson
+            '127.0.0.1']; // Local
 
 // ipFiltering
 app.use(ipfilter(ips, {mode: 'allow'}));

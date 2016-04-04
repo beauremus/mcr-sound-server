@@ -3,7 +3,8 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  div#log
+  div
+    textarea#log(cols="80" rows="20")
   script(src="/socket.io/socket.io.js")
   script(src="/javascripts/jquery.min.js")
   script(src="/javascripts/responsiveVoice.js")
@@ -102,7 +103,7 @@ block content
 
       var dateTime = new Date();
       console.log("Date and data: ",formatDatetime(dateTime)," - ",data);
-      $( "#log" ).append(formatDatetime(dateTime)+" - "+data+"<br/>");
+      $( "#log" ).append(formatDatetime(dateTime)+" - "+data+"\n");
     }
 
     function formatDatetime(date) {

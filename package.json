@@ -1,6 +1,6 @@
 {
   "name": "MCRSoundServer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HTTP server passing TCP text streams to browser.",
   "author": "Beau Harrison <beau@fnal.gov>",
   "private": true,

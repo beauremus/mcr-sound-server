@@ -1,0 +1,30 @@
+extends layout
+
+block head
+  link(href='/stylesheets/voiceTest.css', rel='stylesheet')
+
+block content
+  h1= title
+  p Enter a word or phase into the textarea and select a voice. The MCR Sound Server will annuciate your phrase over the sound system.
+  textarea(cols="60" rows="6")
+  div#selectSubmit
+    select#select
+      option
+    button Submit
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/jquery.min.js")
+  script(src="/javascripts/responsiveVoice.js")
+  script.
+    var socket = io();
+    var voicelist = responsiveVoice.getVoices();
+
+    voicelist.forEach(function(elem, index, array) {
+      $( "select" ).append("<option>"+elem.name+"</option>");
+    });
+
+    $( "button" ).click(function() {
+      socket.emit('voiceTest', {
+        text: $( "textarea" ).val(),
+        voice: $( "#select" ).val(),
+      });
+    });

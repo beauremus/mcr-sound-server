@@ -3,6 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  div#log
   script(src="/socket.io/socket.io.js")
   script(src="/javascripts/jquery.min.js")
   script(src="/javascripts/responsiveVoice.js")
@@ -99,6 +100,7 @@ block content
           responsiveVoice.speak(data);
       }
 
-      console.log(data);
-      document.write(data + "\r\n");
+      var date = new Date();
+      console.log("Date and data: ",date," - ",data);
+      $( "#log" ).append(date+" - "+data+"\n");
     }

@@ -2,7 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  div
+    textarea#log(cols="80" rows="20")
   script(src="/socket.io/socket.io.js")
   script(src="/javascripts/jquery.min.js")
   script(src="/javascripts/responsiveVoice.js")
@@ -25,8 +26,24 @@ block content
     var uboat = new Audio('/audio/uboat.wav');
     var ack = new Audio('/audio/SB.wav');
     var socket = io();
+
     socket.on('connect', function(){});
+
     socket.on('httpServer', function (data) {
+      if(typeof data.voice == "string") {
+        responsiveVoice.speak(data.text, data.voice);
+        socket.emit('silent');
+      } else if(!responsiveVoice.isPlaying()) {
+        play(data);
+        socket.emit('silent');
+      } else {
+        socket.emit('playing');
+      }
+    });
+
+    socket.on('disconnect', function(){});
+
+    function play(data) {
       switch(data) {
         case "Tick":
           tick.play();
@@ -83,8 +100,21 @@ block content
           responsiveVoice.speak(data);
       }
 
-      console.log(data);
-      document.write(data + "\r\n");
-    });
-    socket.on('disconnect', function(){});
-    // Queue
+      var dateTime = new Date();
+      console.log("Date and data: ",formatDatetime(dateTime)," - ",data);
+      $( "#log" ).prepend(formatDatetime(dateTime)+" - "+data+"\n");
+    }
+
+    function formatDatetime(date) {
+      var dateOut = new Date(date);
+      var monthOut = ('0'+(dateOut.getMonth()+1)).slice(-2);
+      console.log("dateOut.getMonth(): ",dateOut.getMonth()," monthOut: ",monthOut);
+      var dayOut = ('0'+dateOut.getDate()).slice(-2);
+      var yearOut = dateOut.getFullYear();
+      var hoursOut = ('0'+dateOut.getHours()).slice(-2);
+      var minsOut = ('0'+dateOut.getMinutes()).slice(-2);
+      var secsOut = ('0'+dateOut.getSeconds()).slice(-2);
+      var timeOut = monthOut+'-'+dayOut+'-'+yearOut+' '+hoursOut+':'+minsOut+':'+secsOut;
+
+      return timeOut;
+    }

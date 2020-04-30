@@ -15,3 +15,6 @@ patch:
   'npm:uglify-js:20150824':
     - jade > transformers > uglify-js:
         patched: '2020-03-17T00:08:53.097Z'
+  SNYK-JS-LODASH-567746:
+    - express-ipfilter > lodash:
+        patched: '2020-04-30T23:53:22.521Z'

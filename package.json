@@ -17,8 +17,8 @@
     "morgan": "^1.6.1",
     "net": "^1.0.2",
     "serve-favicon": "^2.3.0",
-    "socket.io": "^2.0.2",
-    "socket.io-client": "^2.0.2",
+    "socket.io": "^3.0.0",
+    "socket.io-client": "^3.0.0",
     "snyk": "^1.299.0"
   },
   "snyk": true
